@@ -2,7 +2,23 @@
 It's programm that help you plan your affairs.
 ## Installation
 1. Download project to your computer
-2. Open project in file terminal
+2. Open project in the terminal
+3. Download javafx-sdk from [Gluonhq](https://gluonhq.com/products/javafx/)
+   
+4. For IntelliJ IDEA, open
+   ```console
+   File->Project Structure->Project Settings->Modules->Add
+   ```
+   Add all files inside ```javafx-sdk-'version'/lib``` folder as a module.
+   
+5. For IntelliJ IDEA, open
+   ```console
+   Run->Edit Configurations->Main->Modify options->Add VM option
+   ```
+   Then paste next option
+    ```console
+     --module-path "path to downloaded sdk"\lib --add-modules=javafx.controls,javafx.fxml
+    ```
 3. Run docker-compose up -d
 4. Run Main.java file
 
