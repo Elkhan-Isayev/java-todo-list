@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #43a047;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #43a047;" xmlns="http://javafx.com/javafx/11.0.1">
    <children>
       <AnchorPane layoutY="101.0" prefHeight="299.0" prefWidth="700.0" style="-fx-background-color: #ffffffff;">
          <children>
             <PasswordField layoutX="229.0" layoutY="150.0" prefHeight="25.0" prefWidth="243.0" promptText="Password" />
-            <Button layoutX="269.0" layoutY="218.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="164.0" style="-fx-background-color: #212121;" text="Login" />
+            <Button layoutX="269.0" layoutY="218.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="164.0" style="-fx-background-color: #00701a;" text="Login" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <Blend />
+               </effect>
+            </Button>
             <Label alignment="CENTER" layoutX="275.0" layoutY="23.0" prefHeight="20.0" prefWidth="153.0" text="Login" textFill="#0000007a">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField layoutX="228.0" layoutY="105.0" prefHeight="25.0" prefWidth="243.0" />
-         </children></AnchorPane>
+            <TextField layoutX="228.0" layoutY="105.0" prefHeight="25.0" prefWidth="243.0" promptText="Username" />
+         </children>
+      </AnchorPane>
       <Label alignment="CENTER" layoutX="285.0" layoutY="22.0" prefHeight="17.0" prefWidth="130.0" text="TODO" textFill="WHITE">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Button layoutX="628.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: #00701a;" text="Sign Up" textFill="WHITE" />
+      <Button fx:id="loginSignUpButton" layoutX="628.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: #00701a;" text="Sign Up" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>
