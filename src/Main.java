@@ -20,7 +20,7 @@ public class Main extends Application {
         }
         // First config of database
         Connector connector = Connector.getInstance();
-        connector.createConnection();
+        connector.setConfigs();
     }
 
 

@@ -5,5 +5,6 @@ public class Config {
     protected static final String dbPort = "4300";
     protected static final String dbUser = "root";
     protected static final String dbPass = "root";
-//    protected String dbName = "todolist";
+    protected static final String dbName = "todolist";
+    protected static final String dbURL = "jdbc:mysql://" + Config.dbHost + ":" + Config.dbPort + "/";
 }
