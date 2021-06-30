@@ -1,6 +1,10 @@
 package database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 
 public class Connector {
     private static final Connector instance = new Connector();
@@ -49,6 +53,50 @@ public class Connector {
         }
     }
 
+    private void execute(String[] sqlBulk, boolean isUpdate) {
+        try {
+            connection.setAutoCommit(false);
+            Statement statement = connection.createStatement();
+            if(isUpdate) {
+                for (String script : sqlBulk) {
+                    statement.executeUpdate(script);
+                }
+            }
+            else {
+                for (String script : sqlBulk) {
+                    statement.executeQuery(script);
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+            System.out.println("Rolling back data here....");
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            }
+            catch (SQLException rollbackException) {
+                rollbackException.printStackTrace();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Commit connection & set auto commit back
+        try {
+            if(connection != null) {
+                connection.commit();
+                connection.setAutoCommit(true);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+    }
+
     private void closeConnection() {
         try {
             connection.close();
@@ -63,11 +111,10 @@ public class Connector {
 
     public void setConfigs() {
         setConfig(Config.dbURL, Const.CREATE_SCHEMA, true);
-        // create bulk sql request
+        // create bulk arr for sql request
         String[] sqlBulk = {Const.CREATE_USERS, Const.CREATE_TASKS};
         setConfig((Config.dbURL + Config.dbName), sqlBulk, true);
     }
-
 
     private void setConfig(String connectionURL, String sql, boolean isUpdate) {
         createConnection(connectionURL);
@@ -77,9 +124,7 @@ public class Connector {
 
     private void setConfig(String connectionURL, String[] sqlBulk, boolean isUpdate) {
         createConnection(connectionURL);
-        for (String sql : sqlBulk) {
-            execute(sql, isUpdate);
-        }
+        execute(sqlBulk, isUpdate);
         closeConnection();
     }
 }
