@@ -29,7 +29,7 @@
          <Font size="36.0" />
       </font>
    </Label>
-   <Button fx:id="loginSignUpButton" layoutX="628.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: #00701a;" text="Sign Up" textFill="WHITE">
+   <Button fx:id="loginSignUpButton" layoutX="628.0" layoutY="14.0" mnemonicParsing="false" onAction="#signUpButtonHandler" style="-fx-background-color: #00701a;" text="Sign Up" textFill="WHITE">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor>

@@ -2,8 +2,8 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 
 public class Connector {
@@ -35,65 +35,43 @@ public class Connector {
         }
     }
 
-    private void execute(String sql, boolean isUpdate) {
+    private void execute(String sql, Object[] varArr, boolean isUpdate) {
         try {
-            Statement statement = connection.createStatement();
-            if(isUpdate) {
-                statement.executeUpdate(sql);
-            }
-            else {
-                statement.executeQuery(sql);
-            }
-        }
-        catch (SQLException e) {
-            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            if(varArr.length > 0) {
+                for (int i=0; i<varArr.length; i++) {
+                    if (Integer.class.equals(varArr[i].getClass())) {
+                        preparedStatement.setInt(i+1, (Integer) varArr[i]);
+                    }
+                    else if (String.class.equals(varArr[i].getClass())) {
+//                        System.out.println(varArr[i]);
+                        preparedStatement.setObject(i+1, (String) varArr[i]);
 
-    private void execute(String[] sqlBulk, boolean isUpdate) {
-        try {
-            connection.setAutoCommit(false);
-            Statement statement = connection.createStatement();
-            if(isUpdate) {
-                for (String script : sqlBulk) {
-                    statement.executeUpdate(script);
+                    }
+                    else if (Double.class.equals(varArr[i].getClass())) {
+                        preparedStatement.setDouble(i+1, (Double) varArr[i]);
+                    }
+                    else if(Float.class.equals(varArr[i].getClass())){
+                        preparedStatement.setFloat(i+1, (Float) varArr[i]);
+                    }
+                    else {
+                        throw new ClassNotFoundException();
+                    }
                 }
             }
+            // Check if it's update or query
+            if(isUpdate) {
+                preparedStatement.executeUpdate();
+            }
             else {
-                for (String script : sqlBulk) {
-                    statement.executeQuery(script);
-                }
+                preparedStatement.executeQuery();
             }
         }
         catch (SQLException e) {
-            e.printStackTrace();
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-            System.out.println("Rolling back data here....");
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                }
-            }
-            catch (SQLException rollbackException) {
-                rollbackException.printStackTrace();
-            }
         }
         catch (Exception e) {
             e.printStackTrace();
-        }
-        // Commit connection & set auto commit back
-        try {
-            if(connection != null) {
-                connection.commit();
-                connection.setAutoCommit(true);
-            }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
         }
     }
 
@@ -110,21 +88,14 @@ public class Connector {
     }
 
     public void setConfigs() {
-        setConfig(Config.dbURL, Const.CREATE_SCHEMA, true);
-        // create bulk arr for sql request
-        String[] sqlBulk = {Const.CREATE_USERS, Const.CREATE_TASKS};
-        setConfig((Config.dbURL + Config.dbName), sqlBulk, true);
-    }
-
-    private void setConfig(String connectionURL, String sql, boolean isUpdate) {
-        createConnection(connectionURL);
-        execute(sql, isUpdate);
+        // Create database
+        createConnection(Config.dbURL);
+            execute(Const.CREATE_SCHEMA, new Object[]{}, true);
         closeConnection();
-    }
-
-    private void setConfig(String connectionURL, String[] sqlBulk, boolean isUpdate) {
-        createConnection(connectionURL);
-        execute(sqlBulk, isUpdate);
+        // Create Tasks & Users tables
+        createConnection(Config.dbFullURL);
+            execute(Const.CREATE_USERS, new Object[]{}, true);
+            execute(Const.CREATE_TASKS, new Object[]{}, true);
         closeConnection();
     }
 }
