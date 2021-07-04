@@ -2,7 +2,7 @@ package database;
 
 public class Const {
     // database
-    public static final String DATABASE_NAME = "todolist";
+    public static final String DATABASE_NAME = Config.dbName;
     // tables
     public static final String USERS_TABLE = "users";
     public static final String TASKS_TABLE = "tasks";
@@ -42,4 +42,5 @@ public class Const {
     "PRIMARY KEY (`" + TASK_ID + "`) USING BTREE, " +
     "CONSTRAINT `" + FK_USER_ID + "` FOREIGN KEY (`" + USER_ID + "`) REFERENCES `" + USERS_TABLE + "` (`" + USER_ID + "`)" +
     ");";
+    // prepared scripts
 }

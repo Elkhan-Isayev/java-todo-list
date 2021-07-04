@@ -7,4 +7,5 @@ public class Config {
     protected static final String dbPass = "root";
     protected static final String dbName = "todolist";
     protected static final String dbURL = "jdbc:mysql://" + Config.dbHost + ":" + Config.dbPort + "/";
+    protected static final String dbFullURL = dbURL + dbName;
 }
