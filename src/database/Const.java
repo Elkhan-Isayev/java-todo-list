@@ -43,4 +43,13 @@ public class Const {
     "CONSTRAINT `" + FK_USER_ID + "` FOREIGN KEY (`" + USER_ID + "`) REFERENCES `" + USERS_TABLE + "` (`" + USER_ID + "`)" +
     ");";
     // prepared scripts
+    // inse
+    public static final String INSERT_USER = "INSERT INTO " + Const.USERS_TABLE + "(" +
+    Const.USER_FIRSTNAME + "," +
+    Const.USER_LASTNAME + "," +
+    Const.USER_USERNAME + "," +
+    Const.USER_PASSWORD + "," +
+    Const.USER_LOCATION + "," +
+    Const.USER_GENDER + ")" +
+    "VALUES(?,?,?,?,?,?)";
 }

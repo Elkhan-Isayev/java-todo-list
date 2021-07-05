@@ -8,24 +8,29 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import service.IUserService;
 
 import java.io.IOException;
 
 public class LoginController {
-    public PasswordField loginPassword;
-    public Button loginButton;
+    private IUserService userService;
+
+    // login form
     public TextField loginUsername;
+    public PasswordField loginPassword;
+    // buttons
+    public Button loginButton;
     public Button loginSignUpButton;
 
     public void loginButtonHandler() {
         String username = loginUsername.getText().trim();
         String password = loginPassword.getText().trim();
-        if(!username.equals("") && !password.equals("")) {
-//            loginUser();
-        }
-        else {
-            System.out.println("Username or Password empty. Please, fill all fields and try again.");
-        }
+//        if(!username.equals("") && !password.equals("")) {
+//
+//        }
+//        else {
+//            System.out.println("Username or Password empty. Please, fill all fields and try again.");
+//        }
     }
 
     public void signUpButtonHandler() {

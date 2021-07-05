@@ -44,9 +44,7 @@ public class Connector {
                         preparedStatement.setInt(i+1, (Integer) varArr[i]);
                     }
                     else if (String.class.equals(varArr[i].getClass())) {
-//                        System.out.println(varArr[i]);
                         preparedStatement.setObject(i+1, (String) varArr[i]);
-
                     }
                     else if (Double.class.equals(varArr[i].getClass())) {
                         preparedStatement.setDouble(i+1, (Double) varArr[i]);
@@ -64,7 +62,7 @@ public class Connector {
                 preparedStatement.executeUpdate();
             }
             else {
-                preparedStatement.executeQuery();
+                preparedStatement.executeUpdate();
             }
         }
         catch (SQLException e) {
@@ -96,6 +94,12 @@ public class Connector {
         createConnection(Config.dbFullURL);
             execute(Const.CREATE_USERS, new Object[]{}, true);
             execute(Const.CREATE_TASKS, new Object[]{}, true);
+        closeConnection();
+    }
+
+    public void executeWrapper(String sql, Object[] varArr, boolean isUpdate) {
+        createConnection(Config.dbFullURL);
+            execute(sql, varArr, isUpdate);
         closeConnection();
     }
 }
