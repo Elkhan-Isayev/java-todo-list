@@ -43,7 +43,7 @@ public class Const {
     "CONSTRAINT `" + FK_USER_ID + "` FOREIGN KEY (`" + USER_ID + "`) REFERENCES `" + USERS_TABLE + "` (`" + USER_ID + "`)" +
     ");";
     // prepared scripts
-    // inse
+    // insert user
     public static final String INSERT_USER = "INSERT INTO " + Const.USERS_TABLE + "(" +
     Const.USER_FIRSTNAME + "," +
     Const.USER_LASTNAME + "," +
@@ -52,4 +52,9 @@ public class Const {
     Const.USER_LOCATION + "," +
     Const.USER_GENDER + ")" +
     "VALUES(?,?,?,?,?,?)";
+    // check if user with such username / password exist
+    public static final String CHECK_USER_EXIST = "SELECT * FROM " +
+    USERS_TABLE + " WHERE " +
+    USER_USERNAME + "= ? AND " +
+    USER_PASSWORD + "= ?";
 }

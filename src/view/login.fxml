@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane style="-fx-background-color: #43a047;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<AnchorPane style="-fx-background-color: #43a047;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
    <AnchorPane layoutY="101.0" prefHeight="299.0" prefWidth="700.0" style="-fx-background-color: #ffffffff;">
       <PasswordField fx:id="loginPassword" layoutX="229.0" layoutY="150.0" prefHeight="25.0" prefWidth="243.0" promptText="Password" />
-      <Button fx:id="loginButton" layoutX="269.0" layoutY="218.0" mnemonicParsing="false" onAction="#loginButtonHandler" prefHeight="32.0" prefWidth="164.0" style="-fx-background-color: #00701a;" text="Login" textFill="WHITE">
+      <Button fx:id="loginLoginButtonHandler" layoutX="269.0" layoutY="218.0" mnemonicParsing="false" onAction="#loginLoginButtonHandler" prefHeight="32.0" prefWidth="164.0" style="-fx-background-color: #00701a;" text="Login" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -29,7 +29,7 @@
          <Font size="36.0" />
       </font>
    </Label>
-   <Button fx:id="loginSignUpButton" layoutX="628.0" layoutY="14.0" mnemonicParsing="false" onAction="#signUpButtonHandler" style="-fx-background-color: #00701a;" text="Sign Up" textFill="WHITE">
+   <Button fx:id="loginSignUpButton" layoutX="628.0" layoutY="14.0" mnemonicParsing="false" onAction="#loginSignUpButtonHandler" style="-fx-background-color: #00701a;" text="Sign Up" textFill="WHITE">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor>

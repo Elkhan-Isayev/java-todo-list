@@ -1,9 +1,8 @@
 package database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.jetbrains.annotations.Nullable;
+
+import java.sql.*;
 
 
 public class Connector {
@@ -35,7 +34,8 @@ public class Connector {
         }
     }
 
-    private void execute(String sql, Object[] varArr, boolean isUpdate) {
+    @Nullable
+    private ResultSet execute(String sql, Object[] varArr, boolean isUpdate) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             if(varArr.length > 0) {
@@ -62,7 +62,7 @@ public class Connector {
                 preparedStatement.executeUpdate();
             }
             else {
-                preparedStatement.executeUpdate();
+                return preparedStatement.executeQuery();
             }
         }
         catch (SQLException e) {
@@ -71,6 +71,7 @@ public class Connector {
         catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     private void closeConnection() {
@@ -97,9 +98,10 @@ public class Connector {
         closeConnection();
     }
 
-    public void executeWrapper(String sql, Object[] varArr, boolean isUpdate) {
+    public ResultSet executeWrapper(String sql, Object[] varArr, boolean isUpdate) {
         createConnection(Config.dbFullURL);
-            execute(sql, varArr, isUpdate);
+        ResultSet resultSet = execute(sql, varArr, isUpdate);
         closeConnection();
+        return resultSet;
     }
 }

@@ -5,6 +5,7 @@ import database.Const;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.sql.ResultSet;
 
 public class UserService implements IUserService {
     public void signUpUser(String firstname, String lastName, String username, String password, String location, String gender) {
@@ -17,12 +18,19 @@ public class UserService implements IUserService {
                 gender
         };
         Connector connector = Connector.getInstance();
-        connector.executeWrapper(Const.INSERT_USER, insertVariables, false);
+        connector.executeWrapper(Const.INSERT_USER, insertVariables, true);
     }
 
-    public void loginUser(String username, String password) {
-
-
+    public boolean loginUser(String username, String password) {
+        boolean result = false;
+        String[] insertVariables = new String[]{
+          username,
+          createHash(password)
+        };
+        Connector connector = Connector.getInstance();
+        ResultSet resultSet = connector.executeWrapper(Const.CHECK_USER_EXIST, insertVariables, false);
+        System.out.println(resultSet);
+        return result;
     }
 
     private String createHash(String text) {
