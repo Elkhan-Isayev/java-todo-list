@@ -55,6 +55,6 @@ public class Const {
     // check if user with such username / password exist
     public static final String CHECK_USER_EXIST = "SELECT * FROM " +
     USERS_TABLE + " WHERE " +
-    USER_USERNAME + "= ? AND " +
-    USER_PASSWORD + "= ?";
+    USERS_TABLE + "." + USER_USERNAME + "=? AND " +
+    USERS_TABLE + "." + USER_PASSWORD + "=?";
 }

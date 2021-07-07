@@ -27,9 +27,10 @@ public class UserService implements IUserService {
           username,
           createHash(password)
         };
-        Connector connector = Connector.getInstance();
-        ResultSet resultSet = connector.executeWrapper(Const.CHECK_USER_EXIST, insertVariables, false);
-        System.out.println(resultSet);
+            Connector connector = Connector.getInstance();
+            ResultSet resultSet = connector.executeWrapper(Const.CHECK_USER_EXIST, insertVariables, false);
+
+
         return result;
     }
 

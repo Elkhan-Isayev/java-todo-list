@@ -34,7 +34,7 @@ public class Connector {
         }
     }
 
-    @Nullable
+//    @Nullable
     private ResultSet execute(String sql, Object[] varArr, boolean isUpdate) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -58,12 +58,21 @@ public class Connector {
                 }
             }
             // Check if it's update or query
+            System.out.println(preparedStatement);
             if(isUpdate) {
                 preparedStatement.executeUpdate();
+                return null;
             }
             else {
-                return preparedStatement.executeQuery();
-            }
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if(resultSet != null) {
+                    while (resultSet.next()) {
+                        System.out.println("firstname: " + resultSet.getString("firstname"));
+                        System.out.println("lastname: " + resultSet.getString("lastname"));
+                    }
+                }
+                return null;
+            }   
         }
         catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
