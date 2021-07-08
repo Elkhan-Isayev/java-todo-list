@@ -8,6 +8,9 @@ import java.security.MessageDigest;
 import java.sql.ResultSet;
 
 public class UserService implements IUserService {
+    private Connector connector = Connector.getInstance();
+
+
     public void signUpUser(String firstname, String lastName, String username, String password, String location, String gender) {
         String[] insertVariables = new String[]{
                 firstname,
@@ -17,20 +20,18 @@ public class UserService implements IUserService {
                 location,
                 gender
         };
-        Connector connector = Connector.getInstance();
+
         connector.executeWrapper(Const.INSERT_USER, insertVariables, true);
     }
 
     public boolean loginUser(String username, String password) {
         boolean result = false;
-        String[] insertVariables = new String[]{
-          username,
-          createHash(password)
-        };
-            Connector connector = Connector.getInstance();
-            ResultSet resultSet = connector.executeWrapper(Const.CHECK_USER_EXIST, insertVariables, false);
-
-
+        try {
+            result = connector.checkLogin(username, createHash(password));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 

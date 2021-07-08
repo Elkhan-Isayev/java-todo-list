@@ -44,7 +44,7 @@ public class Connector {
                         preparedStatement.setInt(i+1, (Integer) varArr[i]);
                     }
                     else if (String.class.equals(varArr[i].getClass())) {
-                        preparedStatement.setObject(i+1, (String) varArr[i]);
+                        preparedStatement.setString(i+1, (String) varArr[i]);
                     }
                     else if (Double.class.equals(varArr[i].getClass())) {
                         preparedStatement.setDouble(i+1, (Double) varArr[i]);
@@ -85,7 +85,9 @@ public class Connector {
 
     private void closeConnection() {
         try {
-            connection.close();
+            if (connection != null) {
+                connection.close();
+            }
         }
         catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -113,4 +115,44 @@ public class Connector {
         closeConnection();
         return resultSet;
     }
+
+    public boolean checkLogin(String username, String password) {
+        boolean result = false;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            createConnection(Config.dbFullURL);
+            preparedStatement = connection.prepareStatement(Const.CHECK_USER_EXIST);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                System.out.println("HERE!");
+                result = true;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                closeConnection();
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+//    public boolean signUpUser() {
+//        boolean result = false;
+//        return result;
+//    }
 }
