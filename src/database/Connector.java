@@ -151,8 +151,33 @@ public class Connector {
         return result;
     }
 
-//    public boolean signUpUser() {
-//        boolean result = false;
-//        return result;
-//    }
+    public String signUpUser() {
+        String result = "Success";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            createConnection(Config.dbFullURL);
+            preparedStatement = connection.prepareStatement(Const.INSERT_USER);
+
+            // here logic required
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                closeConnection();
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
 }
