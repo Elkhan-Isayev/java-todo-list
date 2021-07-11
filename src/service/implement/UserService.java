@@ -1,12 +1,17 @@
-package service;
+package service.implement;
 
 import database.Connector;
 import database.Const;
+import service.IUserService;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.sql.ResultSet;
 
 public class UserService implements IUserService {
+    private Connector connector = Connector.getInstance();
+
+
     public void signUpUser(String firstname, String lastName, String username, String password, String location, String gender) {
         String[] insertVariables = new String[]{
                 firstname,
@@ -16,13 +21,19 @@ public class UserService implements IUserService {
                 location,
                 gender
         };
-        Connector connector = Connector.getInstance();
-        connector.executeWrapper(Const.INSERT_USER, insertVariables, false);
+
+        connector.executeWrapper(Const.INSERT_USER, insertVariables, true);
     }
 
-    public void loginUser(String username, String password) {
-
-
+    public boolean loginUser(String username, String password) {
+        boolean result = false;
+        try {
+            result = connector.checkLogin(username, createHash(password));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     private String createHash(String text) {
