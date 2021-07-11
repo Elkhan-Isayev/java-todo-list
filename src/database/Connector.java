@@ -1,8 +1,13 @@
 package database;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.sql.*;
+import model.User;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Connector {
@@ -116,19 +121,25 @@ public class Connector {
         return resultSet;
     }
 
-    public boolean checkLogin(String username, String password) {
-        boolean result = false;
+    public List<User> getUser(User user) {
+        List<User> userList = new ArrayList();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
             createConnection(Config.dbFullURL);
             preparedStatement = connection.prepareStatement(Const.CHECK_USER_EXIST);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
+            preparedStatement.setString(1, user.userUsername);
+            preparedStatement.setString(2, user.userPassword);
             resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                System.out.println("HERE!");
-                result = true;
+            while (resultSet.next()) {
+                User userListItem = new User();
+                userListItem.userFirstname = resultSet.getString("firstname");
+                userListItem.userLastname = resultSet.getString("lastname");
+                userListItem.userUsername = resultSet.getString("username");
+                userListItem.userPassword = resultSet.getString("password");
+                userListItem.userLocation = resultSet.getString("location");
+                userListItem.userGender = resultSet.getString("gender");
+                userList.add(userListItem);
             }
         }
         catch (SQLException e) {
@@ -148,18 +159,24 @@ public class Connector {
                 e.printStackTrace();
             }
         }
-        return result;
+        return userList;
     }
 
-    public String signUpUser() {
-        String result = "Success";
+    public boolean createUser(User user) {
+        boolean result = false;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
             createConnection(Config.dbFullURL);
             preparedStatement = connection.prepareStatement(Const.INSERT_USER);
-
-            // here logic required
+            preparedStatement.setString(1, user.userFirstname);
+            preparedStatement.setString(2, user.userLastname);
+            preparedStatement.setString(3, user.userUsername);
+            preparedStatement.setString(4, user.userPassword);
+            preparedStatement.setString(5, user.userLocation);
+            preparedStatement.setString(6, user.userGender);
+            preparedStatement.executeUpdate();
+            result = true;
         }
         catch (SQLException e) {
             e.printStackTrace();

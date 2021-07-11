@@ -1,7 +1,9 @@
 package service;
 
-public interface IUserService {
-    void signUpUser(String firstname, String lastName, String username, String password, String location, String gender);
+import model.User;
 
-    boolean loginUser(String username, String password);
+public interface IUserService {
+    boolean signUpUser(User user);
+
+    boolean loginUser(User user);
 }
