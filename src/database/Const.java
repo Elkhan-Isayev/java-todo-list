@@ -17,6 +17,7 @@ public class Const {
     // tasks columns
     public static final String TASK_ID = "taskid";
     public static final String TASK_DATE = "datecreated";
+    public static final String TASK_NAME = "name";
     public static final String TASK_DESCRIPTION = "description";
     // foreign keys
     public static final String FK_USER_ID = "FK_userid";
@@ -38,6 +39,7 @@ public class Const {
     "`" + TASK_ID +"` INT NOT NULL," +
     "`" + USER_ID + "` INT NOT NULL," +
     "`" + TASK_DATE + "` DATETIME NOT NULL," +
+    "`" + TASK_NAME + "` VARCHAR(50) NOT NULL," +
     "`" + TASK_DESCRIPTION + "` VARCHAR(50) NOT NULL," +
     "PRIMARY KEY (`" + TASK_ID + "`) USING BTREE, " +
     "CONSTRAINT `" + FK_USER_ID + "` FOREIGN KEY (`" + USER_ID + "`) REFERENCES `" + USERS_TABLE + "` (`" + USER_ID + "`)" +
