@@ -22,10 +22,10 @@
    <CheckBox fx:id="signUpCheckBoxMale" layoutX="256.0" layoutY="288.0" mnemonicParsing="false" selected="true" text="Male" textFill="#838080" />
    <CheckBox fx:id="signUpCheckBoxFemale" layoutX="386.0" layoutY="288.0" mnemonicParsing="false" text="Female" textFill="#838080" />
    <TextField fx:id="signUpLocation" layoutX="194.0" layoutY="324.0" prefHeight="25.0" prefWidth="312.0" promptText="Location" />
-   <TextField fx:id="signUpPassword" accessibleRole="PASSWORD_FIELD" layoutX="194.0" layoutY="253.0" prefHeight="25.0" prefWidth="312.0" promptText="Password" />
    <Button fx:id="signUpButton" alignment="CENTER" layoutX="256.0" layoutY="361.0" mnemonicParsing="false" onAction="#signUpSignUpButtonHandler" prefHeight="25.0" prefWidth="189.0" style="-fx-background-color: #424242;" text="Sign Up" textFill="WHITE">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor>
    </Button>
+   <PasswordField fx:id="signUpPassword" layoutX="195.0" layoutY="254.0" prefHeight="25.0" prefWidth="312.0" promptText="Password" />
 </AnchorPane>

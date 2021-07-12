@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TaskController">
+   <children>
+      <TextField fx:id="taskField" layoutX="211.0" layoutY="146.0" prefHeight="54.0" prefWidth="278.0" promptText="Task" />
+      <TextField fx:id="descriptionField" layoutX="212.0" layoutY="227.0" prefHeight="54.0" prefWidth="278.0" promptText="Description" />
+      <Button fx:id="saveTaskButton" layoutX="294.0" layoutY="311.0" mnemonicParsing="false" onAction="#handleSaveTaskButtonClick" prefHeight="44.0" prefWidth="113.0" style="-fx-background-color: #00701a;" text="Button" textFill="WHITE" />
+      <AnchorPane prefHeight="100.0" prefWidth="700.0" style="-fx-background-color: #43a047;">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="234.0" layoutY="28.0" prefHeight="44.0" prefWidth="233.0" text="Add Task Form" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>
