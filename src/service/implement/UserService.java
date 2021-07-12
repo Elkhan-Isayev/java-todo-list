@@ -2,6 +2,7 @@ package service.implement;
 
 import database.Connector;
 import database.Const;
+import model.User;
 import service.IUserService;
 
 import java.math.BigInteger;
@@ -12,23 +13,20 @@ public class UserService implements IUserService {
     private Connector connector = Connector.getInstance();
 
 
-    public void signUpUser(String firstname, String lastName, String username, String password, String location, String gender) {
-        String[] insertVariables = new String[]{
-                firstname,
-                lastName,
-                username,
-                createHash(password),
-                location,
-                gender
-        };
-
-        connector.executeWrapper(Const.INSERT_USER, insertVariables, true);
+    public boolean signUpUser(User user) {
+        boolean result = false;
+        user.userPassword = createHash(user.userPassword);
+        if(connector.getUser(user).isEmpty()) {
+            result = connector.createUser(user);
+        }
+        return result;
     }
 
-    public boolean loginUser(String username, String password) {
+    public boolean loginUser(User user) {
         boolean result = false;
         try {
-            result = connector.checkLogin(username, createHash(password));
+            user.userPassword = createHash(user.userPassword);
+            result = !connector.getUser(user).isEmpty();
         }
         catch (Exception e) {
             e.printStackTrace();

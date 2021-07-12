@@ -9,6 +9,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.User;
 import service.IUserService;
 import service.implement.UserService;
 
@@ -44,7 +45,10 @@ public class UserController {
         String password = loginPassword.getText().trim();
 
         if(!isEmpty(username) && !isEmpty(password)) {
-            boolean isCorrectUsernamePassword = userService.loginUser(username, password);
+            User user = new User();
+            user.userUsername = username;
+            user.userPassword = password;
+            boolean isCorrectUsernamePassword = userService.loginUser(user);
             System.out.println(isCorrectUsernamePassword);
         }
         else {
@@ -86,14 +90,15 @@ public class UserController {
                 && !isEmpty(password)
                 && !isEmpty(location)
                 && !isEmpty(gender)) {
-            userService.signUpUser(
-                    firstName,
-                    lastName,
-                    username,
-                    password,
-                    location,
-                    "Male"
-            );
+            User user = new User();
+            user.userFirstname = firstName;
+            user.userLastname = lastName;
+            user.userUsername = username;
+            user.userPassword = password;
+            user.userLocation = location;
+            user.userGender = gender;
+            boolean isSuccess = userService.signUpUser(user);
+            System.out.println(isSuccess);
         }
         else {
             System.out.println("All fields required");
