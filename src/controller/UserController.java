@@ -1,7 +1,9 @@
 package controller;
 
+import animation.Shaker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,7 +23,7 @@ public class UserController {
     public TextField signUpFirstName;
     public TextField signUpLastName;
     public TextField signUpUsername;
-    public TextField signUpPassword;
+    public PasswordField signUpPassword;
     public CheckBox signUpCheckBoxMale;
     public CheckBox signUpCheckBoxFemale;
     public TextField signUpLocation;
@@ -31,13 +33,37 @@ public class UserController {
     // sign up btn on sign up page
     public Button signUpButton;
     // login/sign up btn on login page
-    public Button loginButton;
+    public Button loginLoginButtonHandler;
     public Button loginSignUpButton;
 
     private boolean isEmpty(String str) {
         return str == null || str.isEmpty();
     }
 
+    private void redirectEngine(Node node, String targetPath) {
+        try {
+            // Close current window
+            node.getScene().getWindow().hide();
+
+            // Redirect user to signup window
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource(targetPath));
+            try {
+                loader.load();
+                // Set new stage and show scene
+                Parent root = loader.getRoot();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.showAndWait();
+            }
+            catch (IOException | IllegalStateException e) {
+                e.printStackTrace();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     // login btn on login page
     public void loginLoginButtonHandler() {
@@ -49,7 +75,17 @@ public class UserController {
             user.userUsername = username;
             user.userPassword = password;
             boolean isCorrectUsernamePassword = userService.loginUser(user);
-            System.out.println(isCorrectUsernamePassword);
+            if(isCorrectUsernamePassword) {
+                System.out.println("Welcome " + username);
+                redirectEngine(loginLoginButtonHandler, "/view/addItem.fxml");
+            }
+            else {
+                System.out.println("Incorrect credentials");
+                Shaker loginShaker = new Shaker(loginUsername);
+                loginShaker.shake();
+                Shaker passwordShaker = new Shaker(loginPassword);
+                passwordShaker.shake();
+            }
         }
         else {
             System.out.println("All fields required");
@@ -58,22 +94,7 @@ public class UserController {
 
     // sign up btn on login page
     public void loginSignUpButtonHandler() {
-        // Close current window
-        loginSignUpButton.getScene().getWindow().hide();
-        // Redirect user to signup window
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/signUp.fxml"));
-        try {
-            loader.load();
-            // Set new stage and show scene
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
-        }
-        catch (IOException | IllegalStateException e) {
-            e.printStackTrace();
-        }
+        redirectEngine(loginSignUpButton,"/view/signUp.fxml");
     }
 
     // sign up btn on sign up page
@@ -83,7 +104,18 @@ public class UserController {
         String username = signUpUsername.getText().trim();
         String password = signUpPassword.getText().trim();
         String location = signUpLocation.getText().trim();
-        String gender = "Male";
+        String gender = "";
+        if(signUpCheckBoxFemale.isSelected()) {
+            gender = "Female";
+        }
+        else {
+            gender = "Male";
+        }
+        Shaker firstNameShaker = new Shaker(signUpFirstName);
+        Shaker lastNameShaker = new Shaker(signUpLastName);
+        Shaker usernameShaker = new Shaker(signUpUsername);
+        Shaker passwordShaker = new Shaker(signUpPassword);
+        Shaker locationShaker = new Shaker(signUpLocation);
         if(!isEmpty(firstName)
                 && !isEmpty(lastName)
                 && !isEmpty(username)
@@ -98,10 +130,25 @@ public class UserController {
             user.userLocation = location;
             user.userGender = gender;
             boolean isSuccess = userService.signUpUser(user);
-            System.out.println(isSuccess);
+            if(isSuccess) {
+                redirectEngine(signUpButton, "/view/login.fxml");
+            }
+            else {
+                System.out.println("Incorrect credentials");
+                firstNameShaker.shake();
+                lastNameShaker.shake();
+                usernameShaker.shake();
+                passwordShaker.shake();
+                locationShaker.shake();
+            }
         }
         else {
             System.out.println("All fields required");
+            firstNameShaker.shake();
+            lastNameShaker.shake();
+            usernameShaker.shake();
+            passwordShaker.shake();
+            locationShaker.shake();
         }
     }
 

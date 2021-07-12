@@ -14,7 +14,7 @@ public class Main extends Application {
         // Load front
         if(getClass().getResource("view/login.fxml") != null) {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("view/login.fxml")));
-            primaryStage.setTitle("Hello World");
+            primaryStage.setTitle("TODO APP");
             primaryStage.setScene(new Scene(root, 700, 400));
             primaryStage.show();
         }
