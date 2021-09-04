@@ -1,5 +1,5 @@
 # Welcome
-It's programm that help you plan your affairs.
+It's program that help you plan your affairs.
 ## Installation
 1. Download project to your computer
 2. Open project in the terminal 
