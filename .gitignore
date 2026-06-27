@@ -1,3 +1,8 @@
+# IDE
 /.idea/
-/out/
+/*.iml
 /Java-Todo-List.iml
+
+# Build output
+/out/
+/target/

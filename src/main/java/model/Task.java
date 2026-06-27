@@ -1,13 +1,11 @@
 package model;
 
-import java.text.DateFormat;
+import java.time.LocalDateTime;
 
 public class Task {
     public int taskId;
     public int userId;
-    public DateFormat dateTime;
+    public LocalDateTime dateCreated;
     public String name;
-    public String taskDescription;
+    public String description;
 }
-
-

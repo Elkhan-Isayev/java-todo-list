@@ -14,11 +14,12 @@ import javafx.stage.Stage;
 import model.User;
 import service.IUserService;
 import service.implement.UserService;
+import session.Session;
 
 import java.io.IOException;
 
 public class UserController {
-    private IUserService userService = new UserService();
+    private final IUserService userService = new UserService();
     // sign up form
     public TextField signUpFirstName;
     public TextField signUpLastName;
@@ -74,9 +75,10 @@ public class UserController {
             User user = new User();
             user.userUsername = username;
             user.userPassword = password;
-            boolean isCorrectUsernamePassword = userService.loginUser(user);
-            if(isCorrectUsernamePassword) {
+            User authenticated = userService.authenticate(user);
+            if(authenticated != null) {
                 System.out.println("Welcome " + username);
+                Session.getInstance().setCurrentUser(authenticated);
                 redirectEngine(loginLoginButtonHandler, "/view/addItem.fxml");
             }
             else {

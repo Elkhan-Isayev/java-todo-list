@@ -36,11 +36,11 @@ public class Const {
     ");";
     // create tasks table
     public static final String CREATE_TASKS = "CREATE TABLE IF NOT EXISTS `" + TASKS_TABLE + "` (" +
-    "`" + TASK_ID +"` INT NOT NULL," +
+    "`" + TASK_ID +"` INT NOT NULL AUTO_INCREMENT," +
     "`" + USER_ID + "` INT NOT NULL," +
-    "`" + TASK_DATE + "` DATETIME NOT NULL," +
+    "`" + TASK_DATE + "` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
     "`" + TASK_NAME + "` VARCHAR(50) NOT NULL," +
-    "`" + TASK_DESCRIPTION + "` VARCHAR(50) NOT NULL," +
+    "`" + TASK_DESCRIPTION + "` VARCHAR(255) NOT NULL," +
     "PRIMARY KEY (`" + TASK_ID + "`) USING BTREE, " +
     "CONSTRAINT `" + FK_USER_ID + "` FOREIGN KEY (`" + USER_ID + "`) REFERENCES `" + USERS_TABLE + "` (`" + USER_ID + "`)" +
     ");";
@@ -59,4 +59,14 @@ public class Const {
     USERS_TABLE + " WHERE " +
     USERS_TABLE + "." + USER_USERNAME + "=? AND " +
     USERS_TABLE + "." + USER_PASSWORD + "=?";
+    // insert a task for a user
+    public static final String INSERT_TASK = "INSERT INTO " + TASKS_TABLE + "(" +
+    USER_ID + "," +
+    TASK_NAME + "," +
+    TASK_DESCRIPTION + ")" +
+    "VALUES(?,?,?)";
+    // load every task that belongs to a user, newest first
+    public static final String SELECT_TASKS_BY_USER = "SELECT * FROM " +
+    TASKS_TABLE + " WHERE " +
+    USER_ID + "=? ORDER BY " + TASK_DATE + " DESC";
 }
